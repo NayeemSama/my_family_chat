@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "1070052475297",
+    "project_id": "familychat-55095",
+    "storage_bucket": "familychat-55095.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070052475297:android:df5cf9b788f890f0328be0",
+        "android_client_info": {
+          "package_name": "com.nayeem.familychat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1070052475297-4nndrqhph8itfjnruf2hn65acctlae00.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nayeem.familychat",
+            "certificate_hash": "f00feb7f68ea67e4ffd0689d895ca7a4ab218e2f"
+          }
+        },
+        {
+          "client_id": "1070052475297-klh025qv0chqh8e90red4ib22otbq20j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nayeem.familychat",
+            "certificate_hash": "9bb0602d8b51937e9c235b3aa7d9961279bc1a12"
+          }
+        },
+        {
+          "client_id": "1070052475297-j2p347okkdvb7ulrmgh309dasmt3n3fe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWrBNkEhd1Ig_IEdKlO6JbPDhYyoebqLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1070052475297-j2p347okkdvb7ulrmgh309dasmt3n3fe.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1070052475297-fea7jp7bnt2v9d74icq2fn21011ucjnf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nayeem.familychat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
