@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:familychat/features/auth/controllers/user_info_controller.dart';
-import 'package:familychat/services/firebase_repo.dart';
+import 'package:familychat/services/firebase_services.dart';
 import 'package:familychat/widgets/snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

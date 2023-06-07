@@ -1,6 +1,5 @@
 import 'package:familychat/features/auth/controllers/email_controller.dart';
 import 'package:familychat/features/home/controllers/home_controller.dart';
-import 'package:familychat/features/home/repositories/home_repository.dart';
 import 'package:familychat/features/home/screens/search_users.dart';
 import 'package:familychat/models/user_model.dart';
 import 'package:familychat/utils/colors.dart';
@@ -8,7 +7,6 @@ import 'package:familychat/widgets/contacts_list.dart';
 import 'package:familychat/widgets/error_screen.dart';
 import 'package:familychat/widgets/loader.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -28,6 +26,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObse
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(homeControllerProvider).initNotifications();
       allUsers = await ref.read(homeControllerProvider).getAllUsers();
     });
   }

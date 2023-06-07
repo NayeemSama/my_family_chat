@@ -1,7 +1,6 @@
 import 'package:familychat/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:familychat/info.dart';
-import 'package:familychat/widgets/chat_list.dart';
 
 class MobileChatScreen extends StatelessWidget {
   const MobileChatScreen({Key? key}) : super(key: key);

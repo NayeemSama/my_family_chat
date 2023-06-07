@@ -3,11 +3,13 @@ enum MessageEnum {
   image('image'),
   audio('audio'),
   video('video'),
+  audioCall('audioCall'),
+  videoCall('videoCall'),
   gif('gif');
 
-  final String type;
+  final String name;
 
-  const MessageEnum(this.type);
+  const MessageEnum(this.name);
 }
 
 extension ConvertMessage on String {
@@ -23,6 +25,10 @@ extension ConvertMessage on String {
         return MessageEnum.gif;
       case 'video':
         return MessageEnum.video;
+      case 'audioCall':
+        return MessageEnum.audioCall;
+      case 'videoCall':
+        return MessageEnum.videoCall;
       default:
         return MessageEnum.text;
     }

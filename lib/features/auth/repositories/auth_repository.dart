@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:familychat/models/user_model.dart';
 import 'package:familychat/screens/mobile_layout_screen.dart';
-import 'package:familychat/services/firebase_repo.dart';
+import 'package:familychat/services/firebase_services.dart';
 import 'package:familychat/services/paths.dart';
 import 'package:familychat/widgets/snackBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -118,10 +118,20 @@ class AuthRepository {
         isOnline: false,
         groupId: [],
         userName: name,
+        fcmToken: '',
         email: firebaseAuth.currentUser!.email!,
       );
 
       await firebaseFireStore.collection('users').doc(uid).set(user.toJson()).whenComplete(() {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MobileLayoutScreen(),
+          ),
+          (route) => false,
+        );
+      });
+      await firebaseFireStore.collection('users').doc(uid).update(user.toJson()).whenComplete(() {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -148,16 +158,18 @@ class AuthRepository {
   Future<List<Map<String, dynamic>>> getAllUserData() async {
     var userData = await firebaseFireStore.collection('users').get();
     var dataList = userData.docs.map((e) => e.data()).toList();
-    print('dataList $dataList');
     return dataList;
   }
 
   Stream<UserModel> userData(String userId) {
-    print('chatControllerProvider->2');
     return firebaseFireStore.collection('users').doc(userId).snapshots().map(
           (event) => UserModel.fromJson(
             event.data()!,
           ),
         );
+  }
+
+  Future addFCMToken(String token) async {
+    await firebaseFireStore.collection('users').doc(firebaseAuth.currentUser?.uid).update({'fcmToken': token});
   }
 }

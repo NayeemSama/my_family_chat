@@ -6,6 +6,7 @@ class UserModel {
   final String profilePic;
   final String email;
   final bool isOnline;
+  final String fcmToken;
   final List groupId;
 
   UserModel({
@@ -13,6 +14,7 @@ class UserModel {
     required this.userName,
     required this.profilePic,
     required this.email,
+    required this.fcmToken,
     required this.isOnline,
     required this.groupId,
   });
@@ -23,6 +25,7 @@ class UserModel {
       userName: json["userName"],
       profilePic: json["profilePic"],
       email: json["email"],
+      fcmToken: json["fcmToken"],
       isOnline: json["isOnline"] == true,
       groupId: jsonDecode(json["groupId"]).toList(),
     );
@@ -34,6 +37,7 @@ class UserModel {
       "userName": userName,
       "profilePic": profilePic,
       "email": email,
+      "fcmToken": fcmToken,
       "isOnline": isOnline,
       "groupId": jsonEncode(groupId),
     };

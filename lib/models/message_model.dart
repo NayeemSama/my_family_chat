@@ -31,7 +31,7 @@ class MessageModel {
       'senderId': senderId,
       'recieverid': recieverid,
       'text': text,
-      'type': type.type,
+      'type': type.name,
       'timeSent': timeSent.millisecondsSinceEpoch,
       'messageId': messageId,
       'isSeen': isSeen,

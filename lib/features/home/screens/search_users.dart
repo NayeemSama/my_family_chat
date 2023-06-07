@@ -64,7 +64,11 @@ class SearchUsers extends SearchDelegate with ChangeNotifier {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => UserChatScreen(uid: result.uid),
+                        builder: (context) => UserChatScreen(
+                          uid: result.uid,
+                          name: result.userName,
+                          pic: result.profilePic,
+                        ),
                       ));
                 },
               )
@@ -87,7 +91,8 @@ class SearchUsers extends SearchDelegate with ChangeNotifier {
                 onTap: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => UserChatScreen(uid: result.uid),
+                      builder: (context) =>
+                          UserChatScreen(uid: result.uid, name: result.userName, pic: result.profilePic),
                     ),
                   );
                 },
