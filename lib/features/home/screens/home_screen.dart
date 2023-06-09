@@ -57,88 +57,71 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with WidgetsBindingObse
   Widget build(BuildContext context) {
     ref.read(homeControllerProvider).getAllChatList();
     ref.read(userDataProvider).whenData((value) => null);
+    var size = MediaQuery.of(context).size;
 
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: AppColors.appBarColor,
-          centerTitle: false,
-          title: const Text(
-            'WhatsApp',
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.grey,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.search, color: Colors.grey),
-              onPressed: () {
-                ref.read(homeControllerProvider).getAllUsers();
-                showSearch(context: context, delegate: SearchUsers(allUsers!));
-              },
-            ),
-            PopupMenuButton<int>(
-              itemBuilder: (ctx) => [
-                PopupMenuItem(
-                  value: 1,
-                  child: Row(
-                    children: const [
-                      Icon(Icons.logout),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text("Logout")
-                    ],
-                  ),
+        appBar: PreferredSize(
+          preferredSize: Size(size.width, size.height * 0.08 + MediaQuery.of(context).viewPadding.top),
+          child: Container(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
+            color: const Color(0xff1c2e46),
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: size.height * 0.03,
+                  horizontal: size.width * 0.08,
                 ),
-              ],
-              offset: const Offset(0, 50),
-              icon: const Icon(Icons.more_vert, color: Colors.grey),
-              color: AppColors.bgBlueGrey,
-              elevation: 2,
-              onSelected: (value) {
-                if (value == 1) {
-                  ref.read(homeControllerProvider).logOut(context);
-                }
-              },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                        height: size.width * 0.1,
+                        width: size.width * 0.1,
+                        decoration:
+                            BoxDecoration(color: const Color(0xff304057), borderRadius: BorderRadius.circular(8)),
+                        child: const Icon(
+                          Icons.settings,
+                          color: Colors.white,
+                        )),
+                    const Text('Messages',
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: Colors.white)),
+                    Container(
+                        height: size.width * 0.1,
+                        width: size.width * 0.1,
+                        decoration:
+                            BoxDecoration(color: const Color(0xff304057), borderRadius: BorderRadius.circular(8)),
+                        child: const Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        )),
+                  ],
+                ),
+              ),
             ),
-          ],
-          bottom: const TabBar(
-            indicatorColor: AppColors.tabColor,
-            indicatorWeight: 4,
-            labelColor: AppColors.tabColor,
-            unselectedLabelColor: Colors.grey,
-            labelStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-            tabs: [
-              Tab(
-                text: 'CHATS',
-              ),
-              Tab(
-                text: 'STATUS',
-              ),
-              Tab(
-                text: 'CALLS',
-              ),
-            ],
           ),
         ),
         body: ref.watch(chatListProvider).when(
-              data: (data) => ContactsList(userList: data!),
+              data: (data) => Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(35), topRight: Radius.circular(35))),
+                  child: ContactsList(userList: data!)),
               error: (error, stackTrace) => ErrorScreen(error: error.toString()),
               loading: () => const Loader(),
             ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: AppColors.tabColor,
-          child: const Icon(
-            Icons.comment,
-            color: Colors.white,
+        floatingActionButton: Container(
+          height: size.height * 0.1,
+          width: size.height * 0.1,
+          child: FittedBox(
+            child: FloatingActionButton(
+              backgroundColor: AppColors.darkBackground,
+              onPressed: () {},
+              child: const Icon(
+                Icons.add,
+              ),
+            ),
           ),
         ),
       ),

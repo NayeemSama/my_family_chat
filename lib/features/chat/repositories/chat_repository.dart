@@ -80,18 +80,18 @@ class ChatRepository {
     }
   }
 
-  void _saveDataToUsersChatsCollection(UserModel senderUserData,
-      UserModel? recieverUserData,
-      String text,
-      DateTime timeSent,
-      String recieverUserId,
-      bool isGroupChat,) async {
+  void _saveDataToUsersChatsCollection(
+    UserModel senderUserData,
+    UserModel? recieverUserData,
+    String text,
+    DateTime timeSent,
+    String recieverUserId,
+    bool isGroupChat,
+  ) async {
     if (isGroupChat) {
       await firebaseFirestore.collection('groups').doc(recieverUserId).update({
         'lastMessage': text,
-        'timeSent': DateTime
-            .now()
-            .millisecondsSinceEpoch,
+        'timeSent': DateTime.now().millisecondsSinceEpoch,
       });
     } else {
       // users -> reciever user id => chats -> current user id -> set data
@@ -101,6 +101,7 @@ class ChatRepository {
         contactId: senderUserData.uid,
         timeSent: timeSent,
         lastMessage: text,
+        currentlyTyping: false,
       );
       await firebaseFirestore
           .collection('users')
@@ -108,8 +109,8 @@ class ChatRepository {
           .collection('chats')
           .doc(firebaseAuth.currentUser!.uid)
           .set(
-        recieverChatContact.toJson(),
-      );
+            recieverChatContact.toJson(),
+          );
       // users -> current user id  => chats -> reciever user id -> set data
       var senderChatContact = ChatUserInfoModel(
         name: recieverUserData!.userName,
@@ -117,6 +118,7 @@ class ChatRepository {
         contactId: recieverUserData.uid,
         timeSent: timeSent,
         lastMessage: text,
+        currentlyTyping: false,
       );
       await firebaseFirestore
           .collection('users')
@@ -124,8 +126,8 @@ class ChatRepository {
           .collection('chats')
           .doc(recieverUserId)
           .set(
-        senderChatContact.toJson(),
-      );
+            senderChatContact.toJson(),
+          );
     }
   }
 
@@ -160,8 +162,8 @@ class ChatRepository {
     if (isGroupChat) {
       // groups -> group id -> chat -> message
       await firebaseFirestore.collection('groups').doc(recieverUserId).collection('chats').doc(messageId).set(
-        message.toMap(),
-      );
+            message.toMap(),
+          );
     } else {
       // users -> sender id -> reciever id -> messages -> message id -> store message
       await firebaseFirestore
@@ -172,8 +174,8 @@ class ChatRepository {
           .collection('messages')
           .doc(messageId)
           .set(
-        message.toMap(),
-      );
+            message.toMap(),
+          );
       // users -> eciever id  -> sender id -> messages -> message id -> store message
       await firebaseFirestore
           .collection('users')
@@ -183,10 +185,17 @@ class ChatRepository {
           .collection('messages')
           .doc(messageId)
           .set(
-        message.toMap(),
-      );
+            message.toMap(),
+          );
     }
   }
 
-
+  void activateTyping(receiverUserId) async {
+    await firebaseFirestore
+        .collection('users')
+        .doc(receiverUserId)
+        .collection('chats')
+        .doc(firebaseAuth.currentUser!.uid)
+        .update({"currentlyTyping": true});
+  }
 }

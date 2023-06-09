@@ -13,49 +13,38 @@ class MyMessageCard extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 100, minWidth: 100),
-        child: Card(
-          elevation: 1,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          color: AppColors.messageColor,
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-          child: Stack(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width - 100,
+          minWidth: 100,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  right: 30,
-                  top: 5,
-                  bottom: 20,
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(14), topLeft: Radius.circular(14), bottomLeft: Radius.circular(14)),
+                  color: AppColors.darkBackgroundShade1,
                 ),
-                child: Text(
-                  message,
-                  style: const TextStyle(
-                    fontSize: 16,
+                constraints: BoxConstraints(
+                  minWidth: MediaQuery.of(context).size.width * 0.13,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    message,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white),
                   ),
                 ),
               ),
-              Positioned(
-                bottom: 4,
-                right: 10,
-                child: Row(
-                  children: [
-                    Text(
-                      DateFormat('hh:mm').format(DateFormat('yyyy-MM-dd hh:mm:ss').parse(date)).toString(),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.white60,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    const Icon(
-                      Icons.done_all,
-                      size: 17,
-                      color: Colors.white60,
-                    ),
-                  ],
+              Text(
+                DateFormat('hh:mm').format(DateFormat('yyyy-MM-dd hh:mm:ss').parse(date)).toString(),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.grey[600],
                 ),
               ),
             ],

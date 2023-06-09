@@ -42,32 +42,43 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
+///Maintains the current context of the app
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'Whatsapp UI',
-      theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: AppColors.backgroundColor,
-          appBarTheme: const AppBarTheme(color: AppColors.appBarColor)),
+      theme: ThemeData(
+        scaffoldBackgroundColor: AppColors.darkBackground,
+        primarySwatch: AppColors.darkPrimary,
+        appBarTheme: const AppBarTheme(color: AppColors.appBarColor),
+      ),
+      darkTheme: ThemeData(
+        scaffoldBackgroundColor: AppColors.darkBackground,
+        primarySwatch: AppColors.darkPrimary,
+        appBarTheme: const AppBarTheme(color: AppColors.appBarColor),
+      ),
       onGenerateRoute: (settings) => generateRoute(settings),
       home: ref.watch(userDataProvider).when(
-        data: (user) {
-          if (user == null) {
-            return const LandingScreen();
-          } else {
-            print('Current User -> ${user.userName}');
-            return const HomeScreen();
-          }
-        },
-        error: (error, stackTrace) {
-          return ErrorScreen(error: error.toString());
-        },
-        loading: () => const Loader(),
-      ),
+            data: (user) {
+              if (user == null) {
+                return const LandingScreen();
+              } else {
+                print('Current User -> ${user.userName}');
+                return const HomeScreen();
+              }
+            },
+            error: (error, stackTrace) {
+              return ErrorScreen(error: error.toString());
+            },
+            loading: () => const Loader(),
+          ),
     );
   }
 }

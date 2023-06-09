@@ -7,4 +7,5 @@ class ConstKeys {
   static const String oldFirebaseToken = 'oldFirebaseToken';
   static const String audioCall = 'audioCall';
   static const String videoCall = 'videoCall';
+  static const String chatterName = 'chatterName';
 }

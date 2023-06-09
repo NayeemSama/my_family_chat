@@ -33,4 +33,8 @@ class ChatController {
           isGroupChat: isGroup,
         ));
   }
+
+  void activateTyping(uid) {
+    providerRef.read(chatRepositoryProvider).activateTyping(uid);
+  }
 }

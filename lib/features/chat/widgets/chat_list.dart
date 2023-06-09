@@ -30,58 +30,67 @@ class _ChatListState extends ConsumerState<ChatList> {
         stream: ref.read(chatControllerProvider).getAllMessages(widget.receiverId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Loader();
+            return Container(
+                color: Colors.white,
+                child: const Loader(
+                  color: Colors.white,
+                ));
           }
 
           SchedulerBinding.instance.addPostFrameCallback((_) {
-            chatListController.jumpTo(chatListController.position.maxScrollExtent);
+            print('reset');
+            chatListController.jumpTo(0);
           });
 
-          return ListView.builder(
-            controller: chatListController,
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              if (index != snapshot.data!.length - 1) {
-                if (snapshot.data![index].timeSent.difference(snapshot.data![index + 1].timeSent).inDays < 0) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (snapshot.data![index].senderId == ref.read(userDataProvider).value!.uid)
-                        MyMessageCard(
-                          message: snapshot.data![index].text.toString(),
-                          date: snapshot.data![index].timeSent.toString(),
-                        )
-                      else
-                        SenderMessageCard(
-                          message: snapshot.data![index].text.toString(),
-                          date: snapshot.data![index].timeSent.toString(),
-                        ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                            child: DateSeparator(
-                              date: snapshot.data![index + 1].timeSent,
-                            ),
+          return SingleChildScrollView(
+            reverse: true,
+            child: ListView.builder(
+              shrinkWrap: true,
+              controller: chatListController,
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                if (index != snapshot.data!.length - 1) {
+                  if (snapshot.data![index].timeSent.difference(snapshot.data![index + 1].timeSent).inDays < 0) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (snapshot.data![index].senderId == ref.read(userDataProvider).value!.uid)
+                          MyMessageCard(
+                            message: snapshot.data![index].text.toString(),
+                            date: snapshot.data![index].timeSent.toString(),
+                          )
+                        else
+                          SenderMessageCard(
+                            message: snapshot.data![index].text.toString(),
+                            date: snapshot.data![index].timeSent.toString(),
                           ),
-                        ],
-                      ),
-                    ],
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              child: DateSeparator(
+                                date: snapshot.data![index + 1].timeSent,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  }
+                }
+                if (snapshot.data![index].senderId == ref.read(userDataProvider).value!.uid) {
+                  return MyMessageCard(
+                    message: snapshot.data![index].text.toString(),
+                    date: snapshot.data![index].timeSent.toString(),
                   );
                 }
-              }
-              if (snapshot.data![index].senderId == ref.read(userDataProvider).value!.uid) {
-                return MyMessageCard(
+                return SenderMessageCard(
                   message: snapshot.data![index].text.toString(),
                   date: snapshot.data![index].timeSent.toString(),
                 );
-              }
-              return SenderMessageCard(
-                message: snapshot.data![index].text.toString(),
-                date: snapshot.data![index].timeSent.toString(),
-              );
-            },
+              },
+            ),
           );
         });
   }

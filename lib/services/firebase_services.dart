@@ -71,7 +71,7 @@ class FireMessaging {
     } else {
       AwesomeService.showNotification(
         channel: 'channel',
-        from: remoteMessage.toMap()['data']['fromUser'],
+        callData: remoteMessage.toMap()['data']['callData'],
         type: remoteMessage.toMap()['data']['type'],
       );
     }
@@ -82,10 +82,10 @@ class FireMessaging {
     print(remoteMessage.toMap().toString());
   }
 
-  static void sendNotification({required String token, required String type, required String from}) async {
+  static void sendNotification({required String token, required String type, required String callData}) async {
     var data = {
       "message": {
-        'data': {'type': type, 'fromUser': from, 'sound': 'ringtone.mp3'},
+        'data': {'type': type, 'callData': callData, 'sound': 'ringtone.mp3'},
         "token": token
       }
     };
@@ -94,7 +94,7 @@ class FireMessaging {
     var headers = {
       "Content-Type": "application/json",
       "Authorization":
-          "Bearer ya29.a0AWY7CkkZN8yUXe2hbBymZY5QCcAtHGKiYaBt8tfreaf0WgvucMUaYnGdSc-d8ODf0jQwb-S4eIJU-qRDc1e5WV5e7uYGErMzxIBnk6HaUusDcEGvJEIKl0lfJZcNRRQVYH38o1T2xer0RxoiI1VPeUodAQzD3QwaCgYKAUoSARISFQG1tDrpZZziAmaIQbzNBJRR_U2HNA0166"
+          "Bearer ya29.a0AWY7CkmEHjNhymdrGsta9pjvk1hFpH2qfGU8a_Mo97hAtLQB2hEoFF75TvwQyf1V937_XgMJsnHyUCRSqw_bzGr9YCLMiEv2MUjlSfSbVxLlX-TGtLN8Q_iX8lFnZnLQxc0JteQQwDVZ49YjNxFA3i19GegbUzMaCgYKAZ4SARISFQG1tDrpnfLfkOxiUMyUtyVORHbt-Q0166"
     };
 
     http.Response response = await http.post(

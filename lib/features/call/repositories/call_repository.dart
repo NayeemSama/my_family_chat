@@ -26,7 +26,7 @@ class CallRepository {
       await firebaseFirestore.collection('calls').doc(senderCallData.callerId).set(senderCallData.toMap());
       await firebaseFirestore.collection('calls').doc(receiverCallData.receiverId).set(receiverCallData.toMap());
 
-      sendNotification(from: receiverCallData.receiverName, type: callType, uid: receiverCallData.receiverId);
+      sendNotification(from: receiverCallData.toString(), type: callType, uid: receiverCallData.receiverId);
       navigateToCall(ctx, senderCallData);
     } catch (e) {
       snackBar(context: ctx, text: e.toString());
@@ -68,6 +68,6 @@ class CallRepository {
   void sendNotification({uid, type, from}) async {
     var userDataMap = await firebaseFirestore.collection('users').doc(uid).get();
     var receiverToken = UserModel.fromJson(userDataMap.data()!).fcmToken;
-    FireMessaging.sendNotification(token: receiverToken, type: type, from: from);
+    FireMessaging.sendNotification(token: receiverToken, type: type, callData: from);
   }
 }

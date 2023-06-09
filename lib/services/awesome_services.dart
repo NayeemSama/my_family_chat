@@ -1,4 +1,10 @@
+import 'dart:convert';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:familychat/features/call/screens/call_screen.dart';
+import 'package:familychat/main.dart';
+import 'package:familychat/models/call_model.dart';
+import 'package:familychat/screens/mobile_chat_screen.dart';
 import 'package:familychat/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,16 +65,27 @@ class AwesomeService {
     });
   }
 
-  static showNotification({required String channel, required String from, required String type}) {
+  static showNotification({required String channel, required String callData, required String type}) {
+    CallModel model = CallModel.fromMap(jsonDecode(callData));
     AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: 10,
         channelKey: 'calling_channel',
-        title: 'Incoming call from $from',
+        title: 'Incoming call from ${model.callerName}',
         category: NotificationCategory.Call,
         fullScreenIntent: true,
         wakeUpScreen: true,
         actionType: ActionType.KeepOnTop,
+        payload: {
+          'callId': model.callId,
+          'receiverId': model.receiverId,
+          'receiverPic': model.receiverPic,
+          'receiverName': model.receiverName,
+          'callerId': model.callerId,
+          'callerPic': model.callerPic,
+          'callerName': model.callerName,
+          'hasDialed': model.hasDialed.toString(),
+        },
         locked: true,
         body: 'Pickup the call  ${type == 'audioCall' ? '📞' : '📹'}',
       ),
@@ -78,6 +95,8 @@ class AwesomeService {
             key: 'decline', label: 'Decline', color: Colors.red, actionType: ActionType.SilentBackgroundAction),
       ],
     );
+    print('from $callData');
+    print('from $model');
   }
 
   static void dismissNotifications() {
@@ -108,6 +127,10 @@ class NotificationController {
     print('Button Pressed Action --------------------><');
     print(receivedAction.buttonKeyPressed);
     if (receivedAction.buttonKeyPressed == 'accept') {
+      print('payload ${receivedAction.payload}');
+      CallModel model = CallModel.fromMap(receivedAction.payload!);
+      navigatorKey.currentState?.push(MaterialPageRoute(
+          builder: (context) => CallScreen(channelId: model.callId, call: model, isGroupChat: false)));
     } else if (receivedAction.buttonKeyPressed == 'decline') {}
   }
 }

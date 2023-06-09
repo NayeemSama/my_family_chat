@@ -53,7 +53,8 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
             false,
           );
       setState(() {
-        _messageController.text = '';
+        isShowSendButton = false;
+        _messageController.clear();
       });
     } else {
       // var tempDir = await getTemporaryDirectory();
@@ -157,11 +158,8 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
     var size = MediaQuery.of(context).size;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-      decoration: const BoxDecoration(boxShadow: [
-        BoxShadow(
-            color: Colors.black38, offset: Offset(0, -1), blurRadius: 5, spreadRadius: 0, blurStyle: BlurStyle.solid),
-      ], color: AppColors.backgroundColor),
+      padding: EdgeInsets.symmetric(horizontal: size.width * 0.06, vertical: size.height * 0.018),
+      decoration: const BoxDecoration(color: AppColors.darkBackground),
       child: Column(
         children: [
           // isShowMessageReply ? const MessageReplyPreview() : const SizedBox(),
@@ -182,17 +180,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                         iconSize: size.width * 0.06,
                         onPressed: toggleEmojiKeyboardContainer,
                         icon: const Icon(
-                          Icons.emoji_emotions,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      IconButton(
-                        iconSize: size.width * 0.06,
-                        constraints: const BoxConstraints(),
-                        padding: const EdgeInsets.symmetric(horizontal: 3),
-                        onPressed: selectGIF,
-                        icon: const Icon(
-                          Icons.gif,
+                          Icons.emoji_emotions_outlined,
                           color: Colors.grey,
                         ),
                       ),
@@ -201,7 +189,8 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                           focusNode: focusNode,
                           controller: _messageController,
                           onChanged: (val) {
-                            if (val.isNotEmpty) {
+                            if (_messageController.text.isNotEmpty) {
+                              ref.read(chatControllerProvider).activateTyping(widget.recieverUserId);
                               setState(() {
                                 isShowSendButton = true;
                               });
@@ -212,10 +201,15 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                             }
                           },
                           textCapitalization: TextCapitalization.words,
+                          cursorColor: Colors.white54,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: AppColors.mobileChatBoxColor,
                             hintText: 'Type a message!',
+                            hintStyle: const TextStyle(color: Colors.white60),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20.0),
                               borderSide: const BorderSide(
@@ -223,18 +217,8 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                                 style: BorderStyle.none,
                               ),
                             ),
-                            contentPadding: const EdgeInsets.all(10),
+                            contentPadding: const EdgeInsets.only(top: 10, right: 5, bottom: 10, left: 0),
                           ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: selectImage,
-                        constraints: const BoxConstraints(),
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        icon: Icon(
-                          Icons.camera_alt,
-                          color: Colors.grey,
-                          size: size.width * 0.06,
                         ),
                       ),
                       IconButton(
@@ -251,6 +235,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                   ),
                 ),
               ),
+              const SizedBox(width: 10),
               Padding(
                 padding: const EdgeInsets.only(
                   bottom: 5,
@@ -258,7 +243,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                   left: 2,
                 ),
                 child: CircleAvatar(
-                  backgroundColor: const Color(0xFF128C7E),
+                  backgroundColor: Colors.white,
                   radius: 25,
                   child: GestureDetector(
                     onTap: sendTextMessage,
@@ -268,7 +253,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                           : isRecording
                               ? Icons.close
                               : Icons.mic,
-                      color: Colors.white,
+                      color: AppColors.darkBackground,
                     ),
                   ),
                 ),

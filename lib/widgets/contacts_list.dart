@@ -1,6 +1,8 @@
 import 'package:familychat/features/chat/screens/chat_screen.dart';
 import 'package:familychat/models/chatting_user_info_model.dart';
 import 'package:familychat/utils/colors.dart';
+import 'package:familychat/utils/const_keys.dart';
+import 'package:familychat/utils/transitions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -15,7 +17,6 @@ class ContactsList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: ListView.builder(
-        shrinkWrap: true,
         itemCount: userList.length,
         itemBuilder: (context, index) {
           return Column(
@@ -23,8 +24,8 @@ class ContactsList extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => UserChatScreen(
+                    SlideRightRoute(
+                      widget: UserChatScreen(
                         uid: userList[index].contactId,
                         name: userList[index].name,
                         pic: userList[index].profilePic,
@@ -35,17 +36,18 @@ class ContactsList extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: ListTile(
-                    title: Text(
-                      userList[index].name,
-                      style: const TextStyle(
-                        fontSize: 18,
+                    title: Hero(
+                      tag: userList[index].name,
+                      child: Text(
+                        userList[index].name,
+                        style: const TextStyle(color: Colors.black, fontSize: 19, fontWeight: FontWeight.w400),
                       ),
                     ),
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 6.0),
                       child: Text(
                         userList[index].lastMessage,
-                        style: const TextStyle(fontSize: 15),
+                        style: const TextStyle(color: Colors.black54, fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
                     leading: CircleAvatar(
@@ -56,15 +58,11 @@ class ContactsList extends StatelessWidget {
                     ),
                     trailing: Text(
                       DateFormat('hh:mm a').format(userList[index].timeSent).toString(),
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 13,
-                      ),
+                      style: TextStyle(color: Colors.grey, fontSize: 15, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
               ),
-              const Divider(color: AppColors.dividerColor, indent: 85),
             ],
           );
         },

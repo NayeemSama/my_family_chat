@@ -20,36 +20,34 @@ class SenderMessageCard extends StatelessWidget {
           maxWidth: MediaQuery.of(context).size.width - 100,
           minWidth: 100,
         ),
-        child: Card(
-          elevation: 1,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          color: AppColors.senderMessageColor,
-          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: Stack(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  right: 30,
-                  top: 5,
-                  bottom: 20,
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(14), topLeft: Radius.circular(14), bottomRight: Radius.circular(14)),
+                  color: AppColors.darkBackgroundShade2,
                 ),
-                child: Text(
-                  message,
-                  style: const TextStyle(
-                    fontSize: 16,
+                constraints: BoxConstraints(
+                  minWidth: MediaQuery.of(context).size.width * 0.13,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    message,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                   ),
                 ),
               ),
-              Positioned(
-                bottom: 2,
-                right: 10,
-                child: Text(
-                  DateFormat('hh:mm').format(DateFormat('yyyy-MM-dd hh:mm:ss').parse(date)).toString(),
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[600],
-                  ),
+              Text(
+                DateFormat('hh:mm').format(DateFormat('yyyy-MM-dd hh:mm:ss').parse(date)).toString(),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.grey[600],
                 ),
               ),
             ],

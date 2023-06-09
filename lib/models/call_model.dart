@@ -21,14 +21,14 @@ class CallModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'callerId': callerId,
-      'callerName': callerName,
-      'callerPic': callerPic,
-      'receiverId': receiverId,
-      'receiverName': receiverName,
-      'receiverPic': receiverPic,
-      'callId': callId,
-      'hasDialled': hasDialed,
+      "callerId": callerId,
+      "callerName": callerName,
+      "callerPic": callerPic,
+      "receiverId": receiverId,
+      "receiverName": receiverName,
+      "receiverPic": receiverPic,
+      "callId": callId,
+      "hasDialled": hasDialed,
     };
   }
 
@@ -43,5 +43,10 @@ class CallModel {
       callId: map['callId'] ?? '',
       hasDialed: map['hasDialled'] ?? false,
     );
+  }
+
+  @override
+  String toString() {
+    return '{"callerId": "$callerId", "callerName": "$callerName", "callerPic": "$callerPic", "receiverId": "$receiverId", "receiverName": "$receiverName", "receiverPic": "$receiverPic", "callId": "$callId", "hasDialed": $hasDialed}';
   }
 }

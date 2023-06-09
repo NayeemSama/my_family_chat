@@ -14,17 +14,16 @@ class DateSeparator extends StatelessWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 100, minWidth: 100),
         child: Card(
-          elevation: 1,
+          elevation: 3,
+          shadowColor: AppColors.darkBackground,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          color: AppColors.borderColorWhite,
+          color: Colors.white,
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: Text(
               DateFormat('MMM, dd yyyy').format(date),
-              style: const TextStyle(
-                fontSize: 16,
-              ),
+              style: const TextStyle(fontSize: 16, color: AppColors.darkBackground),
             ),
           ),
         ),
